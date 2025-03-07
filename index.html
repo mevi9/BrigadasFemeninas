@@ -1,57 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Realidad Aumentada</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AR con Portada del Libro</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
-</head>
-<body style="margin: 0; overflow: hidden;">
+    <script src="https://cdn.jsdelivr.net/gh/MozillaReality/aframe-ar.js@master/dist/aframe-ar.js"></script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      .a-enter-vr {
+        display: none;
+      }
+    </style>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <!-- Escena A-Frame -->
     <a-scene embedded arjs>
+      <!-- Marcador AR con el patrón -->
+      <a-marker preset="custom" type="pattern" url="portada.patt">
         
-        <!-- Marcador personalizado basado en la portada -->
-        <a-marker preset="custom" type="pattern" url="portada.patt">
+        <!-- Imagen que aparece cuando detecta el marcador -->
+        <a-image src="imagen.jpg" position="0 0 0" scale="1 1 1"></a-image>
+        
+        <!-- Video que aparece cuando detecta el marcador -->
+        <a-video src="video.mp4" width="2" height="1" position="0 1 0"></a-video>
+        
+        <!-- Modelo 3D que aparece cuando detecta el marcador -->
+        <a-entity gltf-model="modelo3d.glb" position="0 0 0" scale="0.5 0.5 0.5"></a-entity>
+        
+        <!-- Audio que se reproduce cuando se detecta el marcador -->
+        <a-entity sound="src: url(audio.mp3); autoplay: false;" position="0 0 0"></a-entity>
 
-            <!-- Ajuste de escala y distancia -->
-            <a-entity position="0 0 0" scale="0.5 0.5 0.5">
-                
-                <!-- Video en alta calidad y bien posicionado -->
-                <a-video 
-                    src="video.mp4"
-                    width="1.2"
-                    height="0.7"
-                    position="0 0.5 -1"
-                    rotation="0 0 0">
-                </a-video>
+      </a-marker>
 
-                <!-- Modelo 3D ajustado en posición y escala -->
-                <a-entity 
-                    position="0 0.2 -0.5" 
-                    scale="0.3 0.3 0.3" 
-                    gltf-model="modelo3d.gltf">
-                </a-entity>
-
-                <!-- Imagen en RA ajustada -->
-                <a-image 
-                    src="imagen.png" 
-                    position="0 0.8 -1"
-                    width="1.5" 
-                    height="1">
-                </a-image>
-
-                <!-- Audio que se reproduce cuando se detecta la portada -->
-                <a-sound 
-                    src="audio.mp3" 
-                    autoplay="true" 
-                    position="0 0 0">
-                </a-sound>
-
-            </a-entity>
-
-        </a-marker>
-
-        <a-entity camera></a-entity>
+      <!-- Cámara AR -->
+      <a-entity camera></a-entity>
     </a-scene>
-</body>
-</html>
+
+    <!-- Agregar controles para hacer más fácil el uso en el móvil -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let audio = document.querySelector('a-entity[sound]');
+        let marker = document.querySelector('a-marker');
+
+        marker.addEventListener('markerFound', function() {
+          audio.components.sound.playSound();
+        });
+
+        marker.addEventListene
