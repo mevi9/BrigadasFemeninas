@@ -8,13 +8,14 @@
     <title>Mi PWA</title>
 </head>
     
-    <script>
+<script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
       .then(() => console.log('Service Worker registrado'))
       .catch((error) => console.log('Error en Service Worker:', error));
   }
 </script>
+
 
 <body>
     <h1>BRIGADAS FEMENINAS SANTA JUANA DE ARCO</h1>
